@@ -40,7 +40,7 @@ class Enumerable {
             throw new TypeError('Must be iterable.');
         }
     }
-    
+
     /**
      * Applies an aggregate function over a sequence. 
      * @param {aggregator} aggregateFn An aggregate function that will be invoked for each element.
@@ -58,12 +58,26 @@ class Enumerable {
                 seed = firstItem.value;
             }
         }
-               
-        for(let item = iterator.next(); !item.done; item = iterator.next()){
-            seed = aggregateFn(seed, item.value); 
+
+        for (let item = iterator.next(); !item.done; item = iterator.next()) {
+            seed = aggregateFn(seed, item.value);
         }
-        
+
         return resultSelector(seed);
+    }
+
+    /**
+     * Determines whether all elements of a sequence satisfy a condition.
+     * @param {predicate} predicate A function to test each source element for a condition.
+     * @returns {boolean}
+     */
+    all(predicate = ALWAYS_TRUE_PREDICATE) {
+        for (let item of this) {
+            if (!predicate(item)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**

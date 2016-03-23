@@ -10,3 +10,6 @@ console.log(`Sum ${sum}`);
 
 let reverseSentence = Enumerable.from('My Name Is Subhajit Das').aggregate((sentence, item) => item + sentence, '', (sentence) => sentence.toUpperCase());
 console.log(`Reverse ${reverseSentence}`);
+
+let isAll = Enumerable.from(arr).all(x => x < 20);
+console.log(isAll);

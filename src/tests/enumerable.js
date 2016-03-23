@@ -44,6 +44,12 @@ describe('Enumerable', function() {
         sum.should.be.exactly(70);
     });
 
+    it('"all" should be able to check if all item in a sequence satisfies a cndition', function() {
+        Enumerable.from(ARRAY_OF_INTEGERS).all(x => x % 2 === 0).should.be.false();
+        Enumerable.from(ARRAY_OF_INTEGERS).all(x => x < 20).should.be.true();
+        Enumerable.from(ARRAY_OF_INTEGERS).all().should.be.true();
+    });
+
     it('"select" should be able to project the iterable using selector', function() {
         let enumerable = Enumerable.from(ARRAY_OF_INTEGERS).select(x => x * 2);
         enumerable.should.be.instanceOf(Enumerable);

@@ -13,4 +13,7 @@ console.log(`Sum ${ sum }`);
 
 let reverseSentence = _linq.Enumerable.from('My Name Is Subhajit Das').aggregate((sentence, item) => item + sentence, '', sentence => sentence.toUpperCase());
 console.log(`Reverse ${ reverseSentence }`);
+
+let isAll = _linq.Enumerable.from(arr).all(x => x < 20);
+console.log(isAll);
 //# sourceMappingURL=demo.js.map
