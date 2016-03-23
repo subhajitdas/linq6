@@ -16,4 +16,7 @@ console.log(`Reverse ${ reverseSentence }`);
 
 let isAll = _linq.Enumerable.from(arr).all(x => x < 20);
 console.log(isAll);
+
+let isAny = _linq.Enumerable.from(arr).any(x => x > 20);
+console.log(isAny);
 //# sourceMappingURL=demo.js.map

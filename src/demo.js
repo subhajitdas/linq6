@@ -13,3 +13,6 @@ console.log(`Reverse ${reverseSentence}`);
 
 let isAll = Enumerable.from(arr).all(x => x < 20);
 console.log(isAll);
+
+let isAny = Enumerable.from(arr).any(x => x > 20);
+console.log(isAny);

@@ -79,6 +79,20 @@ class Enumerable {
         }
         return true;
     }
+    
+    /**
+     * Determines whether any element of a sequence exists or satisfies a condition.
+     * @param {predicate} predicate A function to test each source element for a condition.
+     * @returns {boolean}
+     */
+    any(predicate = ALWAYS_TRUE_PREDICATE) {
+        for (let item of this) {
+            if (predicate(item)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     /**
      * Projects each element of a sequence into a new form.
