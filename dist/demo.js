@@ -26,6 +26,11 @@ console.log('-- Any --');
 let isAny = _linq.Enumerable.from(arr).any(x => x > 20);
 console.log(isAny);
 
+console.log('-- Count --');
+let numberOfElements = _linq.Enumerable.from(arr).count();
+let numberOfElementsLessThanTen = _linq.Enumerable.from(arr).count(x => x < 10);
+console.log(`Total: ${ numberOfElements }, Less Than 10: ${ numberOfElementsLessThanTen }`);
+
 console.log('-- Skip --');
 let skippedEnumerable = _linq.Enumerable.from(arr).skip(3);
 for (let item of skippedEnumerable) {

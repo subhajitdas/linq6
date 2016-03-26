@@ -5,7 +5,7 @@ const ARRAY_OF_INTEGERS = [1, 2, 8, 3, 1, 16];
 const MAP_OF_INTEGER_STRRING = [[1, 'One'], [5, 'Five'], [3, 'Three'], [12, 'Twelve']];
 
 describe('Enumerable', function() {
-    it('"from()" should be able to create enumerable from iterables.', function() {
+    it('"from" should be able to create enumerable from iterables.', function() {
         (function() {
             Enumerable.from(ARRAY_OF_INTEGERS)
         }).should.not.throw();
@@ -17,7 +17,7 @@ describe('Enumerable', function() {
         Enumerable.from(MAP_OF_INTEGER_STRRING).should.be.instanceOf(Enumerable);
     });
 
-    it('"from()" should throw TypeError if source is not iterable.', function() {
+    it('"from" should throw TypeError if source is not iterable.', function() {
         (function() {
             Enumerable.from({ name: 'test' })
         }).should.throw(TypeError);
@@ -56,6 +56,14 @@ describe('Enumerable', function() {
         Enumerable.from(ARRAY_OF_INTEGERS).any().should.be.true();
     });
 
+    it('"count" should be able to return number of elements in the sequence.', function() {
+        Enumerable.from(ARRAY_OF_INTEGERS).count().should.be.exactly(ARRAY_OF_INTEGERS.length);
+    });
+
+    it('"count" should be able to return number of elements in the sequence that satisfies a condition.', function() {
+        Enumerable.from(ARRAY_OF_INTEGERS).count(x => x % 2 === 0).should.be.exactly(3);
+    });
+
     it('"toArray should be able to return the result in an array."', function() {
         let result = Enumerable.from(ARRAY_OF_INTEGERS).where(x => x > 5).select(x => x * 2).toArray();
         result.should.be.eql([16, 32]);
@@ -84,7 +92,7 @@ describe('Enumerable', function() {
         enumerable.should.be.instanceOf(Enumerable);
         enumerable.toArray().should.be.eql([8, 3, 1, 16]);
     });
-    
+
     it('"take" should be able to return specified number of elements.', function() {
         let enumerable = Enumerable.from(ARRAY_OF_INTEGERS).take(3);
         enumerable.should.be.instanceOf(Enumerable);

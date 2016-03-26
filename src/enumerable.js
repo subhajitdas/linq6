@@ -94,6 +94,22 @@ class Enumerable {
         }
         return false;
     }
+    
+    /**
+     * Returns the number of elements in a sequence.
+     * If a condition is specified then returns a how many elemensts in the sequence satisfy it.
+     * @param {predicate} predicate A function to test each source element for a condition.
+     * @returns {Number}
+     */
+    count(predicate = ALWAYS_TRUE_PREDICATE) {
+        let count = 0;
+        for (let item of this) {
+            if (predicate(item)) {
+                count++;
+            }
+        }
+        return count;
+    }
 
     /**
      * Projects each element of a sequence into a new form.
