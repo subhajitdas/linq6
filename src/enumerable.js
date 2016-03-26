@@ -25,6 +25,7 @@
  */
 const SELF_SELECTOR = x => x;
 const ALWAYS_TRUE_PREDICATE = () => true;
+const ALWAYS_FALSE_PREDICATE = () => false;
 
 /**
  * Represents a iterable itself. Provides a set of methods for querying collections.
@@ -79,7 +80,7 @@ class Enumerable {
         }
         return true;
     }
-    
+
     /**
      * Determines whether any element of a sequence exists or satisfies a condition.
      * @param {predicate} predicate A function to test each source element for a condition.
@@ -120,6 +121,76 @@ class Enumerable {
                 }
             }
         });
+    }
+
+    /**
+     * Skips the specified number of elements of a sequence.
+     * @param {Number} [count=0] The number of elements to skip.
+     * @returns {Enumerable}
+     */
+    skip(count = 0) {
+        let iterator = this.iterable[Symbol.iterator](),
+            index = 0,
+            next = function() {
+                let nextItem = iterator.next();
+                if (nextItem.done) {
+                    return { done: true };
+                } else if (index++ < count) {
+                    return next();
+                } else {
+                    return {
+                        value: nextItem.value,
+                        done: false
+                    };
+                }
+            };
+        return new Enumerable({
+            [Symbol.iterator]() {
+                return {
+                    next: next
+                };
+            }
+        });
+    }
+
+    /**
+     * Skips elements in a sequence as long as a specified condition is true and then returns the remaining elements.
+     * @param {predicate} predicate A function to test each source element for a condition.
+     * @returns {Enumerable}
+     */
+    skipWhile(predicate = ALWAYS_FALSE_PREDICATE) {
+        let iterator = this.iterable[Symbol.iterator](),
+            continueSkip = true,
+            next = function() {
+                let nextItem = iterator.next();
+                if (nextItem.done) {
+                    return { done: true };
+                } else if (continueSkip && predicate(nextItem.value)) {
+                    return next();
+                } else {
+                    continueSkip = false;
+                    return {
+                        value: nextItem.value,
+                        done: false
+                    };
+                }
+            };
+
+        return new Enumerable({
+            [Symbol.iterator]() {
+                return {
+                    next: next
+                };
+            }
+        });
+    }
+
+    /**
+     * Returns an array. This method forces immediate evaluation and returns an array that contains the results. 
+     * @returns {Array}
+     */
+    toArray() {
+        return Array.from(this);
     }
 
     /**

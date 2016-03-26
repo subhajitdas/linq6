@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "init": "npm install",
+    "start": "node dist/demo",
     "test": "mocha dist/tests"
   },
   "repository": {

@@ -59,28 +59,45 @@ describe('Enumerable', function () {
         _linq.Enumerable.from(ARRAY_OF_INTEGERS).any().should.be.true();
     });
 
+    it('"toArray should be able to return the result in an array."', function () {
+        let result = _linq.Enumerable.from(ARRAY_OF_INTEGERS).where(x => x > 5).select(x => x * 2).toArray();
+        result.should.be.eql([16, 32]);
+    });
+
     it('"select" should be able to project the iterable using selector', function () {
         let enumerable = _linq.Enumerable.from(ARRAY_OF_INTEGERS).select(x => x * 2);
         enumerable.should.be.instanceOf(_linq.Enumerable);
-        Array.from(enumerable).should.be.eql([2, 4, 16, 6, 2, 32]);
+        enumerable.toArray().should.be.eql([2, 4, 16, 6, 2, 32]);
     });
 
     it('"select" should be project the iterable as is if no selector is supplied', function () {
         let enumerable = _linq.Enumerable.from(ARRAY_OF_INTEGERS).select();
         enumerable.should.be.instanceOf(_linq.Enumerable);
-        Array.from(enumerable).should.be.eql([1, 2, 8, 3, 1, 16]);
+        enumerable.toArray().should.be.eql([1, 2, 8, 3, 1, 16]);
+    });
+
+    it('"skip" should be able to skip specified number of elements', function () {
+        let enumerable = _linq.Enumerable.from(ARRAY_OF_INTEGERS).skip(3);
+        enumerable.should.be.instanceOf(_linq.Enumerable);
+        enumerable.toArray().should.be.eql([3, 1, 16]);
+    });
+
+    it('"skipWhile" should be able to skip elements till condition meet, then return rest', function () {
+        let enumerable = _linq.Enumerable.from(ARRAY_OF_INTEGERS).skipWhile(x => x < 5);
+        enumerable.should.be.instanceOf(_linq.Enumerable);
+        enumerable.toArray().should.be.eql([8, 3, 1, 16]);
     });
 
     it('"where" should be able to filter the iterable using predicate', function () {
         let enumerable = _linq.Enumerable.from(ARRAY_OF_INTEGERS).where(x => x > 2);
         enumerable.should.be.instanceOf(_linq.Enumerable);
-        Array.from(enumerable).should.be.eql([8, 3, 16]);
+        enumerable.toArray().should.be.eql([8, 3, 16]);
     });
 
     it('"where" should return all items in sequence if no predicate is supplied', function () {
         let enumerable = _linq.Enumerable.from(ARRAY_OF_INTEGERS).where();
         enumerable.should.be.instanceOf(_linq.Enumerable);
-        Array.from(enumerable).should.be.eql([1, 2, 8, 3, 1, 16]);
+        enumerable.toArray().should.be.eql([1, 2, 8, 3, 1, 16]);
     });
 });
 //# sourceMappingURL=enumerable.js.map
