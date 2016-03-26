@@ -1,0 +1,27 @@
+{
+    "source": {
+        "include": [
+            "src/enumerable.js"
+        ]
+    },
+    "opts": {
+        "template": "./node_modules/ink-docstrap/template",
+        "destination": "./docs/"
+    },
+    "templates": {
+        "systemName": "LINQ6",
+        //"footer": "The MIT License (MIT)",
+        "copyright": "Copyright (c) 2016 Subhajit Das",
+        "includeDate": "true",
+        "navType": "inline",
+        "theme": "flatly",
+        "linenums": false,
+        "collapseSymbols": false,
+        "inverseNav": true,
+        "outputSourceFiles": false,
+        "outputSourcePath": false
+        //"dateFormat": "{string}",
+        //"syntaxTheme": "{string}",
+        //"sort": "{boolean|string}"
+    }
+}

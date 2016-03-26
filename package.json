@@ -27,6 +27,7 @@
     "babel-plugin-transform-es2015-modules-commonjs": "^6.7.0",
     "babel-plugin-transform-es2015-parameters": "^6.7.0",
     "babel-plugin-transform-es2015-spread": "^6.6.5",
+    "ink-docstrap": "^1.1.4",
     "mocha": "^2.4.5",
     "should": "^8.2.2",
     "should-sinon": "0.0.5",
