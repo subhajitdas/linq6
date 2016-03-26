@@ -1,0 +1,31 @@
+<html>
+<head>
+</head>
+<body style="background: transparent;">
+    <script src="scripts/docstrap.lib.js"></script>
+    <script src="scripts/lunr.min.js"></script>
+    <script src="scripts/fulltext-search.js"></script>
+
+    <script type="text/x-docstrap-searchdb">
+    {"global.html":{"id":"global.html","title":"Global","body":" LINQ6 Classes Enumerable Global ALWAYS FALSEALWAYS TRUERETURN SELF Global Methods ALWAYS FALSE() A default predicate function that always returns false. Returns: Always returns false. Type Boolean ALWAYS TRUE() A default predicate function that always returns true. Returns: Always returns true. Type Boolean RETURN SELF(item) A default selector function that returns the element back. Parameters: Name Type Description item * The item that will be projected back. Returns: The supplied value itself as is. Type * Type Definitions aggregator(aggregate, item) Parameters: Name Type Description aggregate * The aggregated value. item * Indivisual item in the sequence. Returns: The aggregated value. Type * predicate(item) Parameters: Name Type Description item * Indivisual item in the sequence. Returns: If the item satisfies the filter criteria. Type boolean selector(item) Parameters: Name Type Description item * Indivisual item in the sequence. Returns: The transformed item. Type * × Search results Close "},"classes.list.html":{"id":"classes.list.html","title":"Classes","body":" LINQ6 Classes Enumerable Global ALWAYS FALSEALWAYS TRUERETURN SELF Classes Classes Enumerable × Search results Close "},"index.html":{"id":"index.html","title":"Index","body":" LINQ6 Classes Enumerable Global ALWAYS FALSEALWAYS TRUERETURN SELF linq6A JavaScript LINQ Library with lazy execution support using ES6. × Search results Close "},"Enumerable.html":{"id":"Enumerable.html","title":"Class: Enumerable","body":" LINQ6 Classes Enumerable Global ALWAYS FALSEALWAYS TRUERETURN SELF Class: Enumerable Enumerable Represents a iterable itself. Provides a set of methods for querying collections. new Enumerable() Creates a new enumerable. Methods &lt;static&gt; from(source) Creates an Enumerable from iterable collections. Parameters: Name Type Description source iterable A iterable source. Returns: Type Enumerable aggregate(aggregateFn, seed, resultSelector) Applies an aggregate function over a sequence. Parameters: Name Type Argument Default Description aggregateFn aggregator An aggregate function that will be invoked for each element. seed * &lt;optional&gt; First element in the sequence The specified seed value is used as the initial aggregate value. resultSelector selector &lt;optional&gt; SELF_SELECTOR The specified result selector is used to project the aggregated value. Returns: The aggregated value. Type * all(predicate) Determines whether all elements of a sequence satisfy a condition. Parameters: Name Type Argument Default Description predicate predicate &lt;optional&gt; ALWAYS TRUE A function to test each source element for a condition. Returns: Type boolean any(predicate) Determines whether any element of a sequence exists or satisfies a condition. Parameters: Name Type Description predicate predicate A function to test each source element for a condition. Returns: Type boolean count(predicate) Returns the number of elements in a sequence. If a condition is specified then returns a how many elemensts in the sequence satisfy it. Parameters: Name Type Argument Description predicate predicate &lt;optional&gt; A function to test each source element for a condition. Returns: Type Number select(selector) Projects each element of a sequence into a new form. Parameters: Name Type Description selector selector A transform function to apply to each element. Returns: Type Enumerable skip(count) Skips the specified number of elements of a sequence. Parameters: Name Type Argument Default Description count Number &lt;optional&gt; 0 The number of elements to skip. Returns: Type Enumerable skipWhile(predicate) Skips elements in a sequence as long as a specified condition is true and then returns the remaining elements. Parameters: Name Type Description predicate predicate A function to test each source element for a condition. Returns: Type Enumerable take(count) Returns a specified number of elements from the begining of a sequence. Parameters: Name Type Argument Default Description count Number &lt;optional&gt; 0 The number of elements to return. Returns: Type Enumerable takeWhile(predicate) Returns elements in a sequence as long as a specified condition is true. Parameters: Name Type Description predicate predicate A function to test each source element for a condition. Returns: Type Enumerable toArray() Returns an array. This method forces immediate evaluation and returns an array that contains the results. Returns: Type Array where(predicate) Filters a collection of values based on a predicate. Parameters: Name Type Description predicate predicate A function to test each source element for a condition. Returns: Type Enumerable × Search results Close "}}
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            Searcher.init();
+        });
+
+        $(window).on("message", function(msg) {
+            var msgData = msg.originalEvent.data;
+
+            if (msgData.msgid != "docstrap.quicksearch.start") {
+                return;
+            }
+
+            var results = Searcher.search(msgData.searchTerms);
+
+            window.parent.postMessage({"results": results, "msgid": "docstrap.quicksearch.done"}, "*");
+        });
+    </script>
+</body>
+</html>
