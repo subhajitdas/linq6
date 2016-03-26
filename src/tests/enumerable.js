@@ -29,28 +29,28 @@ describe('Enumerable', function() {
         enumerable[Symbol.iterator].should.be.type('function');
     });
 
-    it('"aggregate" should be able to aggregate items in a sequence without a implicit seed', function() {
+    it('"aggregate" should be able to aggregate items in a sequence without a implicit seed.', function() {
         let sum = Enumerable.from(ARRAY_OF_INTEGERS).aggregate((sum, item) => sum + item);
         sum.should.be.exactly(31);
     });
 
-    it('"aggregate" should be able to aggregate items in a sequence with a seed', function() {
+    it('"aggregate" should be able to aggregate items in a sequence with a seed.', function() {
         let sum = Enumerable.from(ARRAY_OF_INTEGERS).aggregate((sum, item) => sum + item, 4);
         sum.should.be.exactly(35);
     });
 
-    it('"aggregate" should be able to aggregate items in a sequence with a seed and result selector', function() {
+    it('"aggregate" should be able to aggregate items in a sequence with a seed and result selector.', function() {
         let sum = Enumerable.from(ARRAY_OF_INTEGERS).aggregate((sum, item) => sum + item, 4, sum => sum * 2);
         sum.should.be.exactly(70);
     });
 
-    it('"all" should be able to check if all item in a sequence satisfies a condition', function() {
+    it('"all" should be able to check if all item in a sequence satisfies a condition.', function() {
         Enumerable.from(ARRAY_OF_INTEGERS).all(x => x % 2 === 0).should.be.false();
         Enumerable.from(ARRAY_OF_INTEGERS).all(x => x < 20).should.be.true();
         Enumerable.from(ARRAY_OF_INTEGERS).all().should.be.true();
     });
 
-    it('"any" should be able to check if any item in a sequence satisfies a cndition', function() {
+    it('"any" should be able to check if any item in a sequence satisfies a cndition.', function() {
         Enumerable.from(ARRAY_OF_INTEGERS).any(x => x % 2 === 0).should.be.true();
         Enumerable.from(ARRAY_OF_INTEGERS).any(x => x > 20).should.be.false();
         Enumerable.from(ARRAY_OF_INTEGERS).any().should.be.true();
@@ -61,37 +61,49 @@ describe('Enumerable', function() {
         result.should.be.eql([16, 32]);
     });
 
-    it('"select" should be able to project the iterable using selector', function() {
+    it('"select" should be able to project the iterable using selector.', function() {
         let enumerable = Enumerable.from(ARRAY_OF_INTEGERS).select(x => x * 2);
         enumerable.should.be.instanceOf(Enumerable);
         enumerable.toArray().should.be.eql([2, 4, 16, 6, 2, 32]);
     });
 
-    it('"select" should be project the iterable as is if no selector is supplied', function() {
+    it('"select" should be project the iterable as is if no selector is supplied.', function() {
         let enumerable = Enumerable.from(ARRAY_OF_INTEGERS).select();
         enumerable.should.be.instanceOf(Enumerable);
         enumerable.toArray().should.be.eql([1, 2, 8, 3, 1, 16]);
     });
 
-    it('"skip" should be able to skip specified number of elements', function() {
+    it('"skip" should be able to skip specified number of elements.', function() {
         let enumerable = Enumerable.from(ARRAY_OF_INTEGERS).skip(3);
         enumerable.should.be.instanceOf(Enumerable);
         enumerable.toArray().should.be.eql([3, 1, 16]);
     });
 
-    it('"skipWhile" should be able to skip elements till condition meet, then return rest', function() {
+    it('"skipWhile" should be able to skip elements till condition satisfies, then return rest.', function() {
         let enumerable = Enumerable.from(ARRAY_OF_INTEGERS).skipWhile(x => x < 5);
         enumerable.should.be.instanceOf(Enumerable);
         enumerable.toArray().should.be.eql([8, 3, 1, 16]);
     });
+    
+    it('"take" should be able to return specified number of elements.', function() {
+        let enumerable = Enumerable.from(ARRAY_OF_INTEGERS).take(3);
+        enumerable.should.be.instanceOf(Enumerable);
+        enumerable.toArray().should.be.eql([1, 2, 8]);
+    });
 
-    it('"where" should be able to filter the iterable using predicate', function() {
+    it('"takeWhile" should be able to return elements till condition satisfies.', function() {
+        let enumerable = Enumerable.from(ARRAY_OF_INTEGERS).takeWhile(x => x != 3);
+        enumerable.should.be.instanceOf(Enumerable);
+        enumerable.toArray().should.be.eql([1, 2, 8]);
+    });
+
+    it('"where" should be able to filter the iterable using predicate.', function() {
         let enumerable = Enumerable.from(ARRAY_OF_INTEGERS).where(x => x > 2);
         enumerable.should.be.instanceOf(Enumerable);
         enumerable.toArray().should.be.eql([8, 3, 16]);
     });
 
-    it('"where" should return all items in sequence if no predicate is supplied', function() {
+    it('"where" should return all items in sequence if no predicate is supplied.', function() {
         let enumerable = Enumerable.from(ARRAY_OF_INTEGERS).where();
         enumerable.should.be.instanceOf(Enumerable);
         enumerable.toArray().should.be.eql([1, 2, 8, 3, 1, 16]);

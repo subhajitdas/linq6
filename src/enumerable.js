@@ -184,6 +184,67 @@ class Enumerable {
             }
         });
     }
+    
+    /**
+     * Returns a specified number of elements from the begining of a sequence.
+     * @param {Number} [count=0] The number of elements to return.
+     * @returns {Enumerable}
+     */
+    take(count = 0) {
+        let iterator = this.iterable[Symbol.iterator](),
+            index = 0,
+            next = function() {
+                let nextItem = iterator.next();
+                index++;
+                if (nextItem.done || (index > count)) {
+                    return { done: true };
+                } else {
+                    return {
+                        value: nextItem.value,
+                        done: false
+                    };
+                }
+            };
+        return new Enumerable({
+            [Symbol.iterator]() {
+                return {
+                    next: next
+                };
+            }
+        });
+    }
+
+    /**
+     * Returns elements in a sequence as long as a specified condition is true.
+     * @param {predicate} predicate A function to test each source element for a condition.
+     * @returns {Enumerable}
+     */
+    takeWhile(predicate = ALWAYS_TRUE_PREDICATE) {
+        let iterator = this.iterable[Symbol.iterator](),
+            continueTake = true,
+            next = function() {
+                let nextItem = iterator.next();
+                if (nextItem.done) {
+                    return { done: true };
+                } else if (continueTake && predicate(nextItem.value)) {
+                    return {
+                        value: nextItem.value,
+                        done: false
+                    };
+                } else {
+                    continueTake = false;
+                    return { done: true };
+                }
+            };
+
+        return new Enumerable({
+            [Symbol.iterator]() {
+                return {
+                    next: next
+                };
+            }
+        });
+    }
 
     /**
      * Returns an array. This method forces immediate evaluation and returns an array that contains the results. 
