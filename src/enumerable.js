@@ -19,12 +19,25 @@
 
 
 /**
- * A default projection function.
+ * A default [selector]{@link selector} function that returns the element back.
+ * @alias RETURN SELF
  * @param {*} item The item that will be projected back.
  * @returns {*} The supplied value itself as is.
  */
 const SELF_SELECTOR = x => x;
+
+/**
+ * A default [predicate]{@link predicate} function that always returns true.
+ * @alias ALWAYS TRUE
+ * @returns {Boolean} Always returns true.
+ */
 const ALWAYS_TRUE_PREDICATE = () => true;
+
+/**
+ * A default [predicate]{@link predicate} function that always returns false.
+ * @alias ALWAYS FALSE
+ * @returns {Boolean} Always returns false.
+ */
 const ALWAYS_FALSE_PREDICATE = () => false;
 
 /**
@@ -69,7 +82,7 @@ class Enumerable {
 
     /**
      * Determines whether all elements of a sequence satisfy a condition.
-     * @param {predicate} predicate A function to test each source element for a condition.
+     * @param {predicate} [predicate=ALWAYS TRUE] A function to test each source element for a condition.
      * @returns {boolean}
      */
     all(predicate = ALWAYS_TRUE_PREDICATE) {
@@ -98,7 +111,7 @@ class Enumerable {
     /**
      * Returns the number of elements in a sequence.
      * If a condition is specified then returns a how many elemensts in the sequence satisfy it.
-     * @param {predicate} predicate A function to test each source element for a condition.
+     * @param {predicate} [predicate] A function to test each source element for a condition.
      * @returns {Number}
      */
     count(predicate = ALWAYS_TRUE_PREDICATE) {
