@@ -203,6 +203,62 @@ class Enumerable {
     }
 
     /**
+     * Returns the only element of a sequence that satisfies the specified condition.
+     * @param {predicate} [predicate] A function to test each source element for a condition.
+     * @returns {*}
+     * @throws {Error} If the sequence is empty.
+     * @throws {Error} If the sequence contains no matching element.
+     * @throws {Error} If the sequence contains more than one matching element.
+     */
+    single() {
+        let predicate = arguments.length <= 0 || arguments[0] === undefined ? ALWAYS_TRUE_PREDICATE : arguments[0];
+
+        let matched = null;
+        for (let item of this) {
+            if (predicate(item)) {
+                if (matched) {
+                    throw new Error('Sequence contains more than one matching element');
+                } else {
+                    matched = item;
+                }
+            }
+        }
+
+        if (matched) {
+            return matched;
+        }
+
+        throw new Error('Sequence contains no matching element.');
+    }
+
+    /**
+     * Returns the only element of a sequence that satisfies a specified condition or null if no such element exists.
+     * @param {predicate} [predicate] A function to test each source element for a condition.
+     * @returns {*}
+     * @throws {Error} If the sequence contains more than one matching element.
+     */
+    singleOrDefault() {
+        let predicate = arguments.length <= 0 || arguments[0] === undefined ? ALWAYS_TRUE_PREDICATE : arguments[0];
+
+        let matched = null;
+        for (let item of this) {
+            if (predicate(item)) {
+                if (matched) {
+                    throw new Error('Sequence contains more than one matching element');
+                } else {
+                    matched = item;
+                }
+            }
+        }
+
+        if (matched) {
+            return matched;
+        }
+
+        return null;
+    }
+
+    /**
      * Skips the specified number of elements of a sequence.
      * @param {Number} [count=0] The number of elements to skip.
      * @returns {Enumerable}

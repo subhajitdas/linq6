@@ -98,6 +98,28 @@ describe('Enumerable', function() {
         enumerable.should.be.instanceOf(Enumerable);
         enumerable.toArray().should.be.eql([1, 2, 8, 3, 1, 16]);
     });
+    
+    it('"single" should be able to return only element of a sequence that satisfies the specified condition, throw error otherwise.', function() {
+        Enumerable.from(ARRAY_OF_INTEGERS).single(x => x === 3).should.be.exactly(3);
+        (function() {
+            Enumerable.from([]).single();
+        }).should.throw('Sequence contains no matching element.');
+        (function() {
+            Enumerable.from(ARRAY_OF_INTEGERS).single(x => x === 1);
+        }).should.throw('Sequence contains more than one matching element');
+        (function() {
+            Enumerable.from(ARRAY_OF_INTEGERS).single(x => x > 100);
+        }).should.throw('Sequence contains no matching element.');
+    });
+    
+    it('"singleOrDefault" should be able to return the first element satisfying condition, or null if none satisfies', function() {
+        Enumerable.from(ARRAY_OF_INTEGERS).singleOrDefault(x => x === 3).should.be.exactly(3);
+        (Enumerable.from([]).singleOrDefault() === null).should.be.true();
+        (Enumerable.from([]).singleOrDefault(x => x > 100) === null).should.be.true();
+        (function() {
+            Enumerable.from(ARRAY_OF_INTEGERS).single(x => x === 1);
+        }).should.throw('Sequence contains more than one matching element');
+    });
 
     it('"skip" should be able to skip specified number of elements.', function() {
         let enumerable = Enumerable.from(ARRAY_OF_INTEGERS).skip(3);

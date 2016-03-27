@@ -102,6 +102,28 @@ describe('Enumerable', function () {
         enumerable.toArray().should.be.eql([1, 2, 8, 3, 1, 16]);
     });
 
+    it('"single" should be able to return only element of a sequence that satisfies the specified condition, throw error otherwise.', function () {
+        _linq.Enumerable.from(ARRAY_OF_INTEGERS).single(x => x === 3).should.be.exactly(3);
+        (function () {
+            _linq.Enumerable.from([]).single();
+        }).should.throw('Sequence contains no matching element.');
+        (function () {
+            _linq.Enumerable.from(ARRAY_OF_INTEGERS).single(x => x === 1);
+        }).should.throw('Sequence contains more than one matching element');
+        (function () {
+            _linq.Enumerable.from(ARRAY_OF_INTEGERS).single(x => x > 100);
+        }).should.throw('Sequence contains no matching element.');
+    });
+
+    it('"singleOrDefault" should be able to return the first element satisfying condition, or null if none satisfies', function () {
+        _linq.Enumerable.from(ARRAY_OF_INTEGERS).singleOrDefault(x => x === 3).should.be.exactly(3);
+        (_linq.Enumerable.from([]).singleOrDefault() === null).should.be.true();
+        (_linq.Enumerable.from([]).singleOrDefault(x => x > 100) === null).should.be.true();
+        (function () {
+            _linq.Enumerable.from(ARRAY_OF_INTEGERS).single(x => x === 1);
+        }).should.throw('Sequence contains more than one matching element');
+    });
+
     it('"skip" should be able to skip specified number of elements.', function () {
         let enumerable = _linq.Enumerable.from(ARRAY_OF_INTEGERS).skip(3);
         enumerable.should.be.instanceOf(_linq.Enumerable);

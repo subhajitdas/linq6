@@ -58,6 +58,34 @@ console.log('-- FirstOrDefault --');
 console.log(Enumerable.from(arr).firstOrDefault());
 console.log(Enumerable.from(arr).firstOrDefault(x => x > 100));
 
+console.log('-- Single --');
+console.log(Enumerable.from(arr).single(x => x === 10));
+try {
+    Enumerable.from([]).single();
+} catch (err) {
+    console.log(err);
+}
+try {
+    Enumerable.from(arr).single(x => x % 2 === 0);
+} catch (err) {
+    console.log(err);
+}
+try {
+    Enumerable.from(arr).single(x => x > 100);
+} catch (err) {
+    console.log(err);
+}
+
+console.log('-- SingleOrDefault --');
+console.log(Enumerable.from(arr).singleOrDefault(x => x === 10));
+console.log(Enumerable.from([]).singleOrDefault());
+console.log(Enumerable.from(arr).singleOrDefault(x => x > 100));
+try {
+    Enumerable.from(arr).single(x => x % 2 === 0);
+} catch (err) {
+    console.log(err);
+}
+
 console.log('-- Skip --');
 let skippedEnumerable = Enumerable.from(arr).skip(3);
 for (let item of skippedEnumerable) {
