@@ -107,7 +107,7 @@ class Enumerable {
         }
         return false;
     }
-    
+
     /**
      * Returns the number of elements in a sequence.
      * If a condition is specified then returns a how many elemensts in the sequence satisfy it.
@@ -122,6 +122,38 @@ class Enumerable {
             }
         }
         return count;
+    }
+    
+    /**
+     * Returns the first element in a sequence that satisfies a specified condition.
+     * @param {predicate} [predicate] A function to test each source element for a condition.
+     * @returns {*}
+     * @throws {Error} If the sequence is empty.
+     * @throws {Error} If the sequence contains no matching element.
+     */
+    first(predicate = ALWAYS_TRUE_PREDICATE) {
+        for (let item of this) {
+            if (predicate(item)) {
+                return item;
+            }
+        }
+
+        throw new Error('Sequence contains no matching element.');
+    }
+    
+    /**
+     * Returns the first element of the sequence that satisfies a condition or null if no such element is found.
+     * @param {predicate} [predicate] A function to test each source element for a condition.
+     * @returns {*}
+     */
+    firstOrDefault(predicate = ALWAYS_TRUE_PREDICATE) {
+        for (let item of this) {
+            if (predicate(item)) {
+                return item;
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -213,7 +245,7 @@ class Enumerable {
             }
         });
     }
-    
+
     /**
      * Returns a specified number of elements from the begining of a sequence.
      * @param {Number} [count=0] The number of elements to return.

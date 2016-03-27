@@ -31,6 +31,25 @@ let numberOfElements = _linq.Enumerable.from(arr).count();
 let numberOfElementsLessThanTen = _linq.Enumerable.from(arr).count(x => x < 10);
 console.log(`Total: ${ numberOfElements }, Less Than 10: ${ numberOfElementsLessThanTen }`);
 
+console.log('-- First --');
+console.log(_linq.Enumerable.from(arr).first());
+console.log(_linq.Enumerable.from(arr).first(x => x > 10));
+try {
+    _linq.Enumerable.from([]).first();
+} catch (err) {
+    console.log(err);
+}
+
+try {
+    _linq.Enumerable.from(arr).first(x => x > 100);
+} catch (err) {
+    console.log(err);
+}
+
+console.log('-- FirstOrDefault --');
+console.log(_linq.Enumerable.from(arr).firstOrDefault());
+console.log(_linq.Enumerable.from(arr).firstOrDefault(x => x > 100));
+
 console.log('-- Skip --');
 let skippedEnumerable = _linq.Enumerable.from(arr).skip(3);
 for (let item of skippedEnumerable) {

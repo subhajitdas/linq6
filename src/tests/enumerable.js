@@ -64,6 +64,24 @@ describe('Enumerable', function() {
         Enumerable.from(ARRAY_OF_INTEGERS).count(x => x % 2 === 0).should.be.exactly(3);
     });
 
+    it('"first" should be able to return the first element satisfying condition, throw error if none satisfies', function() {
+        Enumerable.from(ARRAY_OF_INTEGERS).first().should.be.exactly(1);
+        Enumerable.from(ARRAY_OF_INTEGERS).first(x => x > 5).should.be.exactly(8);
+        (function() {
+            Enumerable.from([]).first();
+        }).should.throw('Sequence contains no matching element.');
+        (function() {
+            Enumerable.from(ARRAY_OF_INTEGERS).first(x => x > 100);
+        }).should.throw('Sequence contains no matching element.');
+    });
+    
+    it('"firstOrDefault" should be able to return the first element satisfying condition, or null if none satisfies', function() {
+        Enumerable.from(ARRAY_OF_INTEGERS).firstOrDefault().should.be.exactly(1);
+        Enumerable.from(ARRAY_OF_INTEGERS).firstOrDefault(x => x > 5).should.be.exactly(8);
+        (Enumerable.from([]).firstOrDefault() === null).should.be.true();
+        (Enumerable.from([]).firstOrDefault(x => x > 100) === null).should.be.true();
+    });
+
     it('"toArray should be able to return the result in an array."', function() {
         let result = Enumerable.from(ARRAY_OF_INTEGERS).where(x => x > 5).select(x => x * 2).toArray();
         result.should.be.eql([16, 32]);

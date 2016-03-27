@@ -137,6 +137,42 @@ class Enumerable {
     }
 
     /**
+     * Returns the first element in a sequence that satisfies a specified condition.
+     * @param {predicate} [predicate] A function to test each source element for a condition.
+     * @returns {*}
+     * @throws {Error} If the sequence is empty.
+     * @throws {Error} If the sequence contains no matching element.
+     */
+    first() {
+        let predicate = arguments.length <= 0 || arguments[0] === undefined ? ALWAYS_TRUE_PREDICATE : arguments[0];
+
+        for (let item of this) {
+            if (predicate(item)) {
+                return item;
+            }
+        }
+
+        throw new Error('Sequence contains no matching element.');
+    }
+
+    /**
+     * Returns the first element of the sequence that satisfies a condition or null if no such element is found.
+     * @param {predicate} [predicate] A function to test each source element for a condition.
+     * @returns {*}
+     */
+    firstOrDefault() {
+        let predicate = arguments.length <= 0 || arguments[0] === undefined ? ALWAYS_TRUE_PREDICATE : arguments[0];
+
+        for (let item of this) {
+            if (predicate(item)) {
+                return item;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Projects each element of a sequence into a new form.
      * @param {selector} selector A transform function to apply to each element.
      * @returns {Enumerable}
