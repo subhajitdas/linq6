@@ -12,6 +12,11 @@ let map = new Map([
     [9, 'Nine'],
     [8, 'Eight']
 ]);
+let arrWithChildCollection = [
+    { Id: 1, children: [11, 12, 13, 14, 15] },
+    { Id: 2, children: [21, 22, 23, 24, 25] },
+    { Id: 3, children: [31, 32, 33, 34, 35] }
+];
 
 let enumerable = Enumerable.from(arr).where(n => n >= 6).select(n => n * 2);
 for (let item of enumerable) {
@@ -72,6 +77,14 @@ try {
 }
 try {
     Enumerable.from(arr).single(x => x > 100);
+} catch (err) {
+    console.log(err);
+}
+
+console.log('-- SelectMany --');
+console.log(Enumerable.from(arrWithChildCollection).selectMany(x => x.children).toArray());
+try {
+    Enumerable.from(arrWithChildCollection).selectMany(x => x.Id).toArray();
 } catch (err) {
     console.log(err);
 }

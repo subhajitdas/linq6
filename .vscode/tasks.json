@@ -17,20 +17,20 @@
         "--source-maps",
         "--watch"
     ],
-    "isWatching": true,
-    "problemMatcher": {
-        "owner": "gulp",
-        "fileLocation": [
-            "relative",
-            "${workspaceRoot}"
-        ],
-        "pattern": {
-            "regexp": "(\\w+):(?:\\s)(\\D+):(?:\\s+)(\\D+)(?:\\s+)\\((\\d+):(\\d+)\\)",
-            "file": 2,
-            "severity": 1,
-            "line": 4,
-            "column": 5,
-            "message": 3
-        }
-    }
+    "isWatching": true
+    // "problemMatcher": {
+    //     "owner": "gulp",
+    //     "fileLocation": [
+    //         "relative",
+    //         "${workspaceRoot}"
+    //     ],
+    //     "pattern": {
+    //         "regexp": "(\\w+):(?:\\s)(\\D+):(?:\\s+)(\\D+)(?:\\s+)\\((\\d+):(\\d+)\\)",
+    //         "file": 2,
+    //         "severity": 1,
+    //         "line": 4,
+    //         "column": 5,
+    //         "message": 3
+    //     }
+    // }
 }

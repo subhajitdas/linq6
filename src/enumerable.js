@@ -185,6 +185,48 @@ class Enumerable {
     }
 
     /**
+     * Projects a collection in each element of a sequence, flattens it.
+     * And invokes a result selector function to project the resulting sequence.
+     * @param {selector} collectionSelector A function to apply to each element to get the intermediate collection.
+     * @param {selector} resultSelector A transform function to apply to each element of final flattened sequence.
+     * @returns {Enumerable}
+    */
+    selectMany(collectionSelector = SELF_SELECTOR, resultSelector = SELF_SELECTOR) {
+        let parentCollectionIterator = this.select(collectionSelector)[Symbol.iterator](),
+            childCollectionIterator = Enumerable.empty()[Symbol.iterator](),
+            next = function() {
+                let nextChildItem = childCollectionIterator.next();
+                if (nextChildItem.done) {
+                    let nextParentCollection = parentCollectionIterator.next();
+                    if (nextParentCollection.done) {
+                        return {
+                            done: true
+                        };
+                    } else {
+                        if (!isIterable(nextParentCollection.value)) {
+                            throw new TypeError('Collection must be iterable.');
+                        }
+                        childCollectionIterator = nextParentCollection.value[Symbol.iterator]();
+                        return next();
+                    }
+                } else {
+                    return {
+                        value: resultSelector(nextChildItem.value),
+                        done: false
+                    };
+                }
+            };
+        return new Enumerable({
+            [Symbol.iterator]() {
+                return {
+                    next: next
+                };
+            }
+        });
+
+    }
+
+    /**
      * Returns the only element of a sequence that satisfies the specified condition.
      * @param {predicate} [predicate] A function to test each source element for a condition.
      * @returns {*}
@@ -228,11 +270,11 @@ class Enumerable {
                 }
             }
         }
-        
+
         if (matched) {
             return matched;
         }
-        
+
         return null;
     }
 
@@ -401,6 +443,33 @@ class Enumerable {
     }
 
     /**
+     * Creates an Enumerable from iterable collections.
+     * @param {iterable} source A iterable source.
+     * @returns {Enumerable}
+     */
+    static from(source) {
+        return new Enumerable(source);
+    }
+
+    /**
+     * Returns an empty Enumerable.
+     * @returns {Enumerable}
+     */
+    static empty() {
+        return new Enumerable({
+            [Symbol.iterator]() {
+                return {
+                    next() {
+                        return {
+                            done: true
+                        };
+                    }
+                };
+            }
+        });
+    }
+
+    /**
      * Iterator
      */
     [Symbol.iterator]() {
@@ -420,15 +489,6 @@ class Enumerable {
                 }
             }
         };
-    }
-
-    /**
-     * Creates an Enumerable from iterable collections.
-     * @param {iterable} source A iterable source.
-     * @returns {Enumerable}
-     */
-    static from(source) {
-        return new Enumerable(source);
     }
 }
 

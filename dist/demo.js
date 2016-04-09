@@ -5,6 +5,7 @@ var _linq = require('./linq6');
 console.log('-- Select & Where --');
 let arr = [1, 3, 5, 6, 10, 35, 9, 8];
 let map = new Map([[1, 'One'], [3, 'Three'], [5, 'Five'], [6, 'Six'], [10, 'Ten'], [35, 'Thirty Five'], [9, 'Nine'], [8, 'Eight']]);
+let arrWithChildCollection = [{ Id: 1, children: [11, 12, 13, 14, 15] }, { Id: 2, children: [21, 22, 23, 24, 25] }, { Id: 3, children: [31, 32, 33, 34, 35] }];
 
 let enumerable = _linq.Enumerable.from(arr).where(n => n >= 6).select(n => n * 2);
 for (let item of enumerable) {
@@ -64,6 +65,14 @@ try {
 }
 try {
     _linq.Enumerable.from(arr).single(x => x > 100);
+} catch (err) {
+    console.log(err);
+}
+
+console.log('-- SelectMany --');
+console.log(_linq.Enumerable.from(arrWithChildCollection).selectMany(x => x.children).toArray());
+try {
+    _linq.Enumerable.from(arrWithChildCollection).selectMany(x => x.Id).toArray();
 } catch (err) {
     console.log(err);
 }
