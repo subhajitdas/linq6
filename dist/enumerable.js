@@ -54,7 +54,7 @@ const ALWAYS_FALSE_PREDICATE = () => false;
 /**
  * A default [equalityComparer]{@link equalityComparer} function that uses default comparison.
  * @alias DEFAULT COMPARER
- * @returns {boolean}.
+ * @returns {boolean} If the source and target are equal (is in == operator).
  */
 const DEFAULT_EQUALITY_COMPARER = (source, target) => source == target;
 
@@ -233,11 +233,12 @@ class Enumerable {
     }
 
     /**
-     * Projects a collection in each element of a sequence, flattens it.
-     * And invokes a result selector function to project the resulting sequence.
+     * Projects a collection in each element of a sequence, flattens it,
+     * and invokes a result selector function to project the resulting sequence.
      * @param {selector} collectionSelector A function to apply to each element to get the intermediate collection.
      * @param {selector} [resultSelector] A transform function to apply to each element of final flattened sequence.
      * @returns {Enumerable}
+     * @throws {TypeError} If the collection is not iterable.
     */
     selectMany() {
         let collectionSelector = arguments.length <= 0 || arguments[0] === undefined ? SELF_SELECTOR : arguments[0];
