@@ -23,6 +23,13 @@ Object.defineProperty(exports, "__esModule", {
  */
 
 /**
+ * @typedef {function} equalityComparer
+ * @param {*} source Indivisual item in the sequence.
+ * @param {*} target Target element to compare with.
+ * @returns {boolean} If the source and target are equal.
+ */
+
+/**
  * A default [selector]{@link selector} function that returns the element back.
  * @alias RETURN SELF
  * @param {*} item The item that will be projected back.
@@ -43,6 +50,13 @@ const ALWAYS_TRUE_PREDICATE = () => true;
  * @returns {Boolean} Always returns false.
  */
 const ALWAYS_FALSE_PREDICATE = () => false;
+
+/**
+ * A default [equalityComparer]{@link equalityComparer} function that uses default comparison.
+ * @alias DEFAULT COMPARER
+ * @returns {boolean}.
+ */
+const DEFAULT_EQUALITY_COMPARER = (source, target) => source == target;
 
 /**
  * Represents a iterable itself. Provides a set of methods for querying collections.
@@ -119,8 +133,24 @@ class Enumerable {
     }
 
     /**
+     * Determines if the sequence contains a specified element by using the equality comparer.
+     * @param {*} element The element to compare with.
+     * @param {equalityComparer} [equalityComparer] A function to determine equality of each element with specified element.
+     */
+    contains(element) {
+        let equalityComparer = arguments.length <= 1 || arguments[1] === undefined ? DEFAULT_EQUALITY_COMPARER : arguments[1];
+
+        for (let item of this) {
+            if (equalityComparer(item, element)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Returns the number of elements in a sequence.
-     * If a condition is specified then returns a how many elemensts in the sequence satisfy it.
+     * If a condition is specified then returns a how many elements in the sequence satisfy it.
      * @param {predicate} [predicate] A function to test each source element for a condition.
      * @returns {Number}
      */
@@ -206,7 +236,7 @@ class Enumerable {
      * Projects a collection in each element of a sequence, flattens it.
      * And invokes a result selector function to project the resulting sequence.
      * @param {selector} collectionSelector A function to apply to each element to get the intermediate collection.
-     * @param {selector} resultSelector A transform function to apply to each element of final flattened sequence.
+     * @param {selector} [resultSelector] A transform function to apply to each element of final flattened sequence.
      * @returns {Enumerable}
     */
     selectMany() {

@@ -27,6 +27,10 @@ console.log('-- Any --');
 let isAny = _linq.Enumerable.from(arr).any(x => x > 20);
 console.log(isAny);
 
+console.log('-- Contains --');
+console.log(_linq.Enumerable.from(arr).contains(3));
+console.log(_linq.Enumerable.from(arrWithChildCollection).contains(3, (source, target) => source.Id === target));
+
 console.log('-- Count --');
 let numberOfElements = _linq.Enumerable.from(arr).count();
 let numberOfElementsLessThanTen = _linq.Enumerable.from(arr).count(x => x < 10);

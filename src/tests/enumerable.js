@@ -9,7 +9,7 @@ const ARRAY_ELEMENTS_WITH_COLLECTION = [
     { Id: 2, children: [21, 22, 23, 24, 25] },
     { Id: 3, children: [31, 32, 33, 34, 35] }
 ];
-const MAP_OF_INTEGER_STRRING = [[1, 'One'], [5, 'Five'], [3, 'Three'], [12, 'Twelve']];
+const MAP_OF_INTEGER_STRRING = new Map([[1, 'One'], [5, 'Five'], [3, 'Three'], [12, 'Twelve']]);
 
 describe('Enumerable', function() {
     describe('static method "empty"', function() {
@@ -19,7 +19,7 @@ describe('Enumerable', function() {
             enumerable[Symbol.iterator]().next().done.should.be.true();
         });
     });
-    
+
     describe('static method "from"', function() {
         it('should create and return Enumerable from an array.', function() {
             (function() {
@@ -27,7 +27,7 @@ describe('Enumerable', function() {
             }).should.not.throw();
             Enumerable.from(ARRAY_OF_INTEGERS).should.be.instanceOf(Enumerable);
         });
-        
+
         it('should create and return Enumerable from a map.', function() {
             (function() {
                 Enumerable.from(MAP_OF_INTEGER_STRRING)
@@ -82,6 +82,21 @@ describe('Enumerable', function() {
         it('should always return true if no predicate is provided.', function() {
             Enumerable.from(ARRAY_OF_INTEGERS).any().should.be.true();
         });
+    });
+
+    describe('method "contains"', function() {
+        it('should determine if sequence contains an element using default comparer',
+            function() {
+                Enumerable.from(ARRAY_OF_INTEGERS).contains(3).should.be.true();
+                Enumerable.from(ARRAY_OF_INTEGERS).contains(5).should.be.false();
+            });
+        it('should determine if sequence contains an element using provided comparer',
+            function() {
+                Enumerable.from(ARRAY_ELEMENTS_WITH_COLLECTION)
+                    .contains(3, (source, target) => source.Id === target).should.be.true();
+                Enumerable.from(ARRAY_ELEMENTS_WITH_COLLECTION)
+                    .contains(5, (source, target) => source.Id === target).should.be.false();
+            });
     });
 
     describe('method "count"', function() {

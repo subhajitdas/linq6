@@ -14,7 +14,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 const ARRAY_OF_INTEGERS = [1, 2, 8, 3, 1, 16];
 const ARRAY_ELEMENTS_WITH_COLLECTION = [{ Id: 1, children: [11, 12, 13, 14, 15] }, { Id: 2, children: [21, 22, 23, 24, 25] }, { Id: 3, children: [31, 32, 33, 34, 35] }];
-const MAP_OF_INTEGER_STRRING = [[1, 'One'], [5, 'Five'], [3, 'Three'], [12, 'Twelve']];
+const MAP_OF_INTEGER_STRRING = new Map([[1, 'One'], [5, 'Five'], [3, 'Three'], [12, 'Twelve']]);
 
 describe('Enumerable', function () {
     describe('static method "empty"', function () {
@@ -85,6 +85,17 @@ describe('Enumerable', function () {
         });
         it('should always return true if no predicate is provided.', function () {
             _linq.Enumerable.from(ARRAY_OF_INTEGERS).any().should.be.true();
+        });
+    });
+
+    describe('method "contains"', function () {
+        it('should determine if sequence contains an element using default comparer', function () {
+            _linq.Enumerable.from(ARRAY_OF_INTEGERS).contains(3).should.be.true();
+            _linq.Enumerable.from(ARRAY_OF_INTEGERS).contains(5).should.be.false();
+        });
+        it('should determine if sequence contains an element using provided comparer', function () {
+            _linq.Enumerable.from(ARRAY_ELEMENTS_WITH_COLLECTION).contains(3, (source, target) => source.Id === target).should.be.true();
+            _linq.Enumerable.from(ARRAY_ELEMENTS_WITH_COLLECTION).contains(5, (source, target) => source.Id === target).should.be.false();
         });
     });
 

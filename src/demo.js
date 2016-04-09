@@ -39,6 +39,10 @@ console.log('-- Any --');
 let isAny = Enumerable.from(arr).any(x => x > 20);
 console.log(isAny);
 
+console.log('-- Contains --');
+console.log(Enumerable.from(arr).contains(3));
+console.log(Enumerable.from(arrWithChildCollection).contains(3, (source, target) => source.Id === target));
+
 console.log('-- Count --');
 let numberOfElements = Enumerable.from(arr).count();
 let numberOfElementsLessThanTen = Enumerable.from(arr).count(x => x < 10);
