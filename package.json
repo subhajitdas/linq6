@@ -1,6 +1,6 @@
 {
     "name": "linq6",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "A javascript LINQ API built using es6 features with deferred execution support.",
     "main": "dist/linq6.js",
     "scripts": {
