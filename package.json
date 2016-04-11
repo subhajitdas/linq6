@@ -1,8 +1,8 @@
 {
     "name": "linq6",
     "version": "1.0.0",
-    "description": "A JavaScript LINQ Library with lazy execution support using ES6.",
-    "main": "index.js",
+    "description": "A javascript LINQ API built using es6 features with deferred execution support.",
+    "main": "dist/linq6.js",
     "scripts": {
         "init": "npm install",
         "start": "node dist/demo",
