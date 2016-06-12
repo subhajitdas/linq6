@@ -1,36 +1,22 @@
-// Available variables which can be used inside of strings.
-// ${workspaceRoot}: the root folder of the team
-// ${file}: the current opened file
-// ${fileBasename}: the current opened file's basename
-// ${fileDirname}: the current opened file's dirname
-// ${fileExtname}: the current opened file's extension
-// ${cwd}: the current working directory of the spawned process
 {
     "version": "0.1.0",
     "command": "babel",
     "isShellCommand": true,
-    "showOutput": "always",
-    "args": [
-        "src",
-        "--out-dir",
-        "dist",
-        "--source-maps",
-        "--watch"
-    ],
-    "isWatching": true
-    // "problemMatcher": {
-    //     "owner": "gulp",
-    //     "fileLocation": [
-    //         "relative",
-    //         "${workspaceRoot}"
-    //     ],
-    //     "pattern": {
-    //         "regexp": "(\\w+):(?:\\s)(\\D+):(?:\\s+)(\\D+)(?:\\s+)\\((\\d+):(\\d+)\\)",
-    //         "file": 2,
-    //         "severity": 1,
-    //         "line": 4,
-    //         "column": 5,
-    //         "message": 3
-    //     }
-    // }
+    "tasks": [
+        {
+            "taskName": "compile",
+            "suppressTaskName": true,
+            "args": [
+                "src",
+                "--out-dir",
+                "dist",
+                "--source-maps",
+                "--comments=false",
+                "--watch"
+            ],
+            "isBuildCommand": true,
+            "isWatching": true,
+            "showOutput": "silent"
+        }
+    ]
 }
