@@ -8,7 +8,7 @@ var _enumerable = require('./enumerable');
 
 Object.defineProperty(exports, 'Enumerable', {
   enumerable: true,
-  get: function () {
+  get: function get() {
     return _enumerable.Enumerable;
   }
 });

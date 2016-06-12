@@ -123,6 +123,45 @@ class Enumerable {
     }
 
     /**
+     * Concatenates with another sequence.
+     * @param {iterable} iterable The sequence to concatenate to the current sequence.
+     * @returns {Enumerable}
+     */
+    concat(iterable) {
+        if (!isIterable(iterable)) {
+            throw new TypeError('Must be iterable');
+        }
+        let currentIterable = this[Symbol.iterator](),
+            iterableToConcat = iterable[Symbol.iterator](),
+            isFirstIterableDone = false;
+
+        const next = function () {
+            let nextItem = currentIterable.next();
+            if (nextItem.done && !isFirstIterableDone) {
+                currentIterable = iterableToConcat;
+                isFirstIterableDone = true;
+                return next();
+            } else if (nextItem.done && isFirstIterableDone) {
+                return {
+                    done: true
+                };
+            } else {
+                return {
+                    value: nextItem.value,
+                    done: false
+                };
+            }
+        }
+        return new Enumerable({
+            [Symbol.iterator]() {
+                return {
+                    next: next
+                };
+            }
+        });
+    }
+
+    /**
      * Determines if the sequence contains a specified element by using the equality comparer.
      * @param {*} element The element to compare with.
      * @param {equalityComparer} [equalityComparer] A function to determine equality of each element with specified element.
@@ -190,7 +229,7 @@ class Enumerable {
      * @returns {Enumerable}
      */
     select(selector = SELF_SELECTOR) {
-        let iterator = this.iterable[Symbol.iterator]();
+        let iterator = this[Symbol.iterator]();
         return new Enumerable({
             [Symbol.iterator]() {
                 return {
@@ -223,7 +262,7 @@ class Enumerable {
     selectMany(collectionSelector = SELF_SELECTOR, resultSelector = SELF_SELECTOR) {
         let parentCollectionIterator = this.select(collectionSelector)[Symbol.iterator](),
             childCollectionIterator = Enumerable.empty()[Symbol.iterator](),
-            next = function() {
+            next = function () {
                 let nextChildItem = childCollectionIterator.next();
                 if (nextChildItem.done) {
                     let nextParentCollection = parentCollectionIterator.next();
@@ -313,9 +352,9 @@ class Enumerable {
      * @returns {Enumerable}
      */
     skip(count = 0) {
-        let iterator = this.iterable[Symbol.iterator](),
+        let iterator = this[Symbol.iterator](),
             index = 0,
-            next = function() {
+            next = function () {
                 let nextItem = iterator.next();
                 if (nextItem.done) {
                     return { done: true };
@@ -343,9 +382,9 @@ class Enumerable {
      * @returns {Enumerable}
      */
     skipWhile(predicate = ALWAYS_FALSE_PREDICATE) {
-        let iterator = this.iterable[Symbol.iterator](),
+        let iterator = this[Symbol.iterator](),
             continueSkip = true,
-            next = function() {
+            next = function () {
                 let nextItem = iterator.next();
                 if (nextItem.done) {
                     return { done: true };
@@ -375,9 +414,9 @@ class Enumerable {
      * @returns {Enumerable}
      */
     take(count = 0) {
-        let iterator = this.iterable[Symbol.iterator](),
+        let iterator = this[Symbol.iterator](),
             index = 0,
-            next = function() {
+            next = function () {
                 let nextItem = iterator.next();
                 index++;
                 if (nextItem.done || (index > count)) {
@@ -404,9 +443,9 @@ class Enumerable {
      * @returns {Enumerable}
      */
     takeWhile(predicate = ALWAYS_TRUE_PREDICATE) {
-        let iterator = this.iterable[Symbol.iterator](),
+        let iterator = this[Symbol.iterator](),
             continueTake = true,
-            next = function() {
+            next = function () {
                 let nextItem = iterator.next();
                 if (nextItem.done) {
                     return { done: true };
@@ -444,8 +483,8 @@ class Enumerable {
      * @returns {Enumerable}
      */
     where(predicate = ALWAYS_TRUE_PREDICATE) {
-        let iterator = this.iterable[Symbol.iterator](),
-            next = function() {
+        let iterator = this[Symbol.iterator](),
+            next = function () {
                 let nextItem = iterator.next();
                 if (nextItem.done) {
                     return {

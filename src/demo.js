@@ -39,6 +39,9 @@ console.log('-- Any --');
 let isAny = Enumerable.from(arr).any(x => x > 20);
 console.log(isAny);
 
+console.log('-- Concat --');
+console.log(Enumerable.from(arr).concat([23, 24, 25]).toArray());
+
 console.log('-- Contains --');
 console.log(Enumerable.from(arr).contains(3));
 console.log(Enumerable.from(arrWithChildCollection).contains(3, (source, target) => source.Id === target));
