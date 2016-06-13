@@ -51,6 +51,9 @@ let numberOfElements = Enumerable.from(arr).count();
 let numberOfElementsLessThanTen = Enumerable.from(arr).count(x => x < 10);
 console.log(`Total: ${numberOfElements}, Less Than 10: ${numberOfElementsLessThanTen}`);
 
+console.log('-- Distinct --');
+console.log(Enumerable.from([1, 2, 1, 5, 3, 3, 6, 2, 8]).distinct().toArray());
+
 console.log('-- First --');
 console.log(Enumerable.from(arr).first());
 console.log(Enumerable.from(arr).first(x => x > 10));

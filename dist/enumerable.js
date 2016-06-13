@@ -327,6 +327,67 @@ var Enumerable = function () {
         }
 
         /**
+         * Returns distinct elements from the sequence.
+         * @params {equalityComparer} [equalityComparer=DEFAULT_EQUALITY_COMPARER] A function to test if two elements in the sequence are equal.
+         * @returns {Enumerable}
+         */
+
+    }, {
+        key: 'distinct',
+        value: function distinct() {
+            var equalityComparer = arguments.length <= 0 || arguments[0] === undefined ? DEFAULT_EQUALITY_COMPARER : arguments[0];
+
+            var currentIterable = this[Symbol.iterator]();
+            var distinctItems = [];
+            var next = function next() {
+                var nextItem = currentIterable.next();
+                if (nextItem.done) {
+                    return {
+                        done: true
+                    };
+                } else {
+                    var _iteratorNormalCompletion5 = true;
+                    var _didIteratorError5 = false;
+                    var _iteratorError5 = undefined;
+
+                    try {
+                        for (var _iterator5 = distinctItems[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+                            var distinctItem = _step5.value;
+
+                            if (equalityComparer(nextItem.value, distinctItem)) {
+                                return next();
+                            }
+                        }
+                    } catch (err) {
+                        _didIteratorError5 = true;
+                        _iteratorError5 = err;
+                    } finally {
+                        try {
+                            if (!_iteratorNormalCompletion5 && _iterator5.return) {
+                                _iterator5.return();
+                            }
+                        } finally {
+                            if (_didIteratorError5) {
+                                throw _iteratorError5;
+                            }
+                        }
+                    }
+
+                    distinctItems.push(nextItem.value);
+                    return {
+                        done: false,
+                        value: nextItem.value
+                    };
+                }
+            };
+            return new Enumerable(_defineProperty({}, Symbol.iterator, function () {
+                return {
+                    next: next
+                };
+            }));
+        }
+
+        /**
          * Returns the first element in a sequence that satisfies a specified condition.
          * @param {predicate} [predicate] A function to test each source element for a condition.
          * @returns {*}
@@ -337,46 +398,6 @@ var Enumerable = function () {
     }, {
         key: 'first',
         value: function first() {
-            var predicate = arguments.length <= 0 || arguments[0] === undefined ? ALWAYS_TRUE_PREDICATE : arguments[0];
-            var _iteratorNormalCompletion5 = true;
-            var _didIteratorError5 = false;
-            var _iteratorError5 = undefined;
-
-            try {
-                for (var _iterator5 = this[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
-                    var item = _step5.value;
-
-                    if (predicate(item)) {
-                        return item;
-                    }
-                }
-            } catch (err) {
-                _didIteratorError5 = true;
-                _iteratorError5 = err;
-            } finally {
-                try {
-                    if (!_iteratorNormalCompletion5 && _iterator5.return) {
-                        _iterator5.return();
-                    }
-                } finally {
-                    if (_didIteratorError5) {
-                        throw _iteratorError5;
-                    }
-                }
-            }
-
-            throw new Error('Sequence contains no matching element.');
-        }
-
-        /**
-         * Returns the first element of the sequence that satisfies a condition or null if no such element is found.
-         * @param {predicate} [predicate] A function to test each source element for a condition.
-         * @returns {*}
-         */
-
-    }, {
-        key: 'firstOrDefault',
-        value: function firstOrDefault() {
             var predicate = arguments.length <= 0 || arguments[0] === undefined ? ALWAYS_TRUE_PREDICATE : arguments[0];
             var _iteratorNormalCompletion6 = true;
             var _didIteratorError6 = false;
@@ -401,6 +422,46 @@ var Enumerable = function () {
                 } finally {
                     if (_didIteratorError6) {
                         throw _iteratorError6;
+                    }
+                }
+            }
+
+            throw new Error('Sequence contains no matching element.');
+        }
+
+        /**
+         * Returns the first element of the sequence that satisfies a condition or null if no such element is found.
+         * @param {predicate} [predicate] A function to test each source element for a condition.
+         * @returns {*}
+         */
+
+    }, {
+        key: 'firstOrDefault',
+        value: function firstOrDefault() {
+            var predicate = arguments.length <= 0 || arguments[0] === undefined ? ALWAYS_TRUE_PREDICATE : arguments[0];
+            var _iteratorNormalCompletion7 = true;
+            var _didIteratorError7 = false;
+            var _iteratorError7 = undefined;
+
+            try {
+                for (var _iterator7 = this[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
+                    var item = _step7.value;
+
+                    if (predicate(item)) {
+                        return item;
+                    }
+                }
+            } catch (err) {
+                _didIteratorError7 = true;
+                _iteratorError7 = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion7 && _iterator7.return) {
+                        _iterator7.return();
+                    }
+                } finally {
+                    if (_didIteratorError7) {
+                        throw _iteratorError7;
                     }
                 }
             }
@@ -500,57 +561,6 @@ var Enumerable = function () {
             var predicate = arguments.length <= 0 || arguments[0] === undefined ? ALWAYS_TRUE_PREDICATE : arguments[0];
 
             var matched = null;
-            var _iteratorNormalCompletion7 = true;
-            var _didIteratorError7 = false;
-            var _iteratorError7 = undefined;
-
-            try {
-                for (var _iterator7 = this[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
-                    var item = _step7.value;
-
-                    if (predicate(item)) {
-                        if (matched) {
-                            throw new Error('Sequence contains more than one matching element');
-                        } else {
-                            matched = item;
-                        }
-                    }
-                }
-            } catch (err) {
-                _didIteratorError7 = true;
-                _iteratorError7 = err;
-            } finally {
-                try {
-                    if (!_iteratorNormalCompletion7 && _iterator7.return) {
-                        _iterator7.return();
-                    }
-                } finally {
-                    if (_didIteratorError7) {
-                        throw _iteratorError7;
-                    }
-                }
-            }
-
-            if (matched) {
-                return matched;
-            }
-
-            throw new Error('Sequence contains no matching element.');
-        }
-
-        /**
-         * Returns the only element of a sequence that satisfies a specified condition or null if no such element exists.
-         * @param {predicate} [predicate] A function to test each source element for a condition.
-         * @returns {*}
-         * @throws {Error} If the sequence contains more than one matching element.
-         */
-
-    }, {
-        key: 'singleOrDefault',
-        value: function singleOrDefault() {
-            var predicate = arguments.length <= 0 || arguments[0] === undefined ? ALWAYS_TRUE_PREDICATE : arguments[0];
-
-            var matched = null;
             var _iteratorNormalCompletion8 = true;
             var _didIteratorError8 = false;
             var _iteratorError8 = undefined;
@@ -578,6 +588,57 @@ var Enumerable = function () {
                 } finally {
                     if (_didIteratorError8) {
                         throw _iteratorError8;
+                    }
+                }
+            }
+
+            if (matched) {
+                return matched;
+            }
+
+            throw new Error('Sequence contains no matching element.');
+        }
+
+        /**
+         * Returns the only element of a sequence that satisfies a specified condition or null if no such element exists.
+         * @param {predicate} [predicate] A function to test each source element for a condition.
+         * @returns {*}
+         * @throws {Error} If the sequence contains more than one matching element.
+         */
+
+    }, {
+        key: 'singleOrDefault',
+        value: function singleOrDefault() {
+            var predicate = arguments.length <= 0 || arguments[0] === undefined ? ALWAYS_TRUE_PREDICATE : arguments[0];
+
+            var matched = null;
+            var _iteratorNormalCompletion9 = true;
+            var _didIteratorError9 = false;
+            var _iteratorError9 = undefined;
+
+            try {
+                for (var _iterator9 = this[Symbol.iterator](), _step9; !(_iteratorNormalCompletion9 = (_step9 = _iterator9.next()).done); _iteratorNormalCompletion9 = true) {
+                    var item = _step9.value;
+
+                    if (predicate(item)) {
+                        if (matched) {
+                            throw new Error('Sequence contains more than one matching element');
+                        } else {
+                            matched = item;
+                        }
+                    }
+                }
+            } catch (err) {
+                _didIteratorError9 = true;
+                _iteratorError9 = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion9 && _iterator9.return) {
+                        _iterator9.return();
+                    }
+                } finally {
+                    if (_didIteratorError9) {
+                        throw _iteratorError9;
                     }
                 }
             }

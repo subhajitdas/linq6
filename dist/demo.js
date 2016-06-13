@@ -80,6 +80,9 @@ var numberOfElementsLessThanTen = _linq.Enumerable.from(arr).count(function (x) 
 });
 console.log('Total: ' + numberOfElements + ', Less Than 10: ' + numberOfElementsLessThanTen);
 
+console.log('-- Distinct --');
+console.log(_linq.Enumerable.from([1, 2, 1, 5, 3, 3, 6, 2, 8]).distinct().toArray());
+
 console.log('-- First --');
 console.log(_linq.Enumerable.from(arr).first());
 console.log(_linq.Enumerable.from(arr).first(function (x) {

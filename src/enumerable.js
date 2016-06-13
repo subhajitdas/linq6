@@ -192,6 +192,42 @@ class Enumerable {
     }
 
     /**
+     * Returns distinct elements from the sequence.
+     * @params {equalityComparer} [equalityComparer=DEFAULT_EQUALITY_COMPARER] A function to test if two elements in the sequence are equal.
+     * @returns {Enumerable}
+     */
+    distinct(equalityComparer = DEFAULT_EQUALITY_COMPARER) {
+        const currentIterable = this[Symbol.iterator]();
+        const distinctItems = [];
+        const next = function () {
+            const nextItem = currentIterable.next();
+            if (nextItem.done) {
+                return {
+                    done: true
+                };
+            } else {
+                for (const distinctItem of distinctItems) {
+                    if (equalityComparer(nextItem.value, distinctItem)) {
+                        return next();
+                    }
+                }
+                distinctItems.push(nextItem.value);
+                return {
+                    done: false,
+                    value: nextItem.value
+                };
+            }
+        };
+        return new Enumerable({
+            [Symbol.iterator]() {
+                return {
+                    next: next
+                };
+            }
+        });
+    }
+
+    /**
      * Returns the first element in a sequence that satisfies a specified condition.
      * @param {predicate} [predicate] A function to test each source element for a condition.
      * @returns {*}

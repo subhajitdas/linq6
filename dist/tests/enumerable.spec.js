@@ -148,6 +148,21 @@ describe('Enumerable', function () {
         });
     });
 
+    describe('method "distinct"', function () {
+        it('should return distinct elements in the sequence', function () {
+            var enumerable = _linq.Enumerable.from([1, 2, 1, 9, 3, 3, 4, 7, 2]).distinct();
+            enumerable.should.be.instanceOf(_linq.Enumerable);
+            enumerable.toArray().should.be.eql([1, 2, 9, 3, 4, 7]);
+        });
+        it('should return distinct elements in the sequence, while comparing elements using supplied function', function () {
+            var enumerable = _linq.Enumerable.from([{ value: 1 }, { value: 2 }, { value: 1 }, { value: 9 }, { value: 3 }, { value: 3 }, { value: 4 }, { value: 7 }, { value: 2 }]).distinct(function (itema, itemb) {
+                return itema.value === itemb.value;
+            });
+            enumerable.should.be.instanceOf(_linq.Enumerable);
+            enumerable.toArray().should.be.eql([{ value: 1 }, { value: 2 }, { value: 9 }, { value: 3 }, { value: 4 }, { value: 7 }]);
+        });
+    });
+
     describe('method "first"', function () {
         it('should return the first element if no predicate is provided.', function () {
             _linq.Enumerable.from(ARRAY_OF_INTEGERS).first().should.be.exactly(1);

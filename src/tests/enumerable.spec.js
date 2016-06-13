@@ -97,7 +97,7 @@ describe('Enumerable', function () {
 
             Enumerable.from(ARRAY_OF_INTEGERS).concat([]).toArray()
                 .should.be.eql([1, 2, 8, 3, 1, 16]);
-                
+
             Enumerable.from(ARRAY_OF_INTEGERS).concat([{ a: 1 }, { b: 2 }]).toArray()
                 .should.be.eql([1, 2, 8, 3, 1, 16, { a: 1 }, { b: 2 }]);
         });
@@ -126,6 +126,28 @@ describe('Enumerable', function () {
         it('should return number of elements in the sequence that satisfies the predicate is supplied.', function () {
             Enumerable.from(ARRAY_OF_INTEGERS).count(x => x % 2 === 0).should.be.exactly(3);
         });
+    });
+
+    describe('method "distinct"', function () {
+        it('should return distinct elements in the sequence',
+            function () {
+                const enumerable = Enumerable.from([1, 2, 1, 9, 3, 3, 4, 7, 2]).distinct();
+                enumerable.should.be.instanceOf(Enumerable);
+                enumerable.toArray().should.be.eql([1, 2, 9, 3, 4, 7]);
+            });
+        it('should return distinct elements in the sequence, while comparing elements using supplied function',
+            function () {
+                const enumerable = Enumerable.from([
+                    { value: 1 }, { value: 2 }, { value: 1 },
+                    { value: 9 }, { value: 3 }, { value: 3 },
+                    { value: 4 }, { value: 7 }, { value: 2 }
+                ]).distinct((itema, itemb) => itema.value === itemb.value);
+                enumerable.should.be.instanceOf(Enumerable);
+                enumerable.toArray().should.be.eql([
+                    { value: 1 }, { value: 2 }, { value: 9 },
+                    { value: 3 }, { value: 4 }, { value: 7 }
+                ]);
+            });
     });
 
     describe('method "first"', function () {
