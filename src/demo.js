@@ -73,6 +73,9 @@ console.log('-- FirstOrDefault --');
 console.log(Enumerable.from(arr).firstOrDefault());
 console.log(Enumerable.from(arr).firstOrDefault(x => x > 100));
 
+console.log('-- Join --');
+console.log(Enumerable.from(arr).join([3, 5, 33, 9, 8, 10], o => o, i => i, (o, i) => o).toArray());
+
 console.log('-- Single --');
 console.log(Enumerable.from(arr).single(x => x === 10));
 try {

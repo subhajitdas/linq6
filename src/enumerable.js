@@ -129,7 +129,7 @@ class Enumerable {
      */
     concat(iterable) {
         if (!isIterable(iterable)) {
-            throw new TypeError('Must be iterable');
+            throw new TypeError('Sequence to concat must be iterable.');
         }
         let currentIterable = this[Symbol.iterator](),
             iterableToConcat = iterable[Symbol.iterator](),
@@ -257,6 +257,48 @@ class Enumerable {
         }
 
         return null;
+    }
+
+    /**
+     * Correlates the elements current sequence with another sequences based on keys.
+     * @param {iterable} innerIterable The sequence to join to current sequence.
+     * @param {selector} outerKeySelector A function to extract key from current sequence.
+     * @param {selector} innerKeySelector A function to extract key from the sequence to join.
+     * @param {selector} resultSelector A function to generate result element from two matching element.
+     * @param {equalityComparer} [keyComparer=DEFAULT_EQUALITY_COMPARER] A function to check equality of keys.
+     */
+    join(innerIterable, outerKeySelector, innerKeySelector, resultSelector, keyComparer = DEFAULT_EQUALITY_COMPARER) {
+        if (!isIterable(innerIterable)) {
+            throw new TypeError('Sequence to join must be iterable.');
+        }
+        const iterator = this[Symbol.iterator]();
+        const next = function () {
+            const nextOuterItem = iterator.next();
+            if (nextOuterItem.done) {
+                return {
+                    done: true
+                };
+            } else {
+                for (const nextInnerItem of innerIterable) {
+                    if (keyComparer(
+                        outerKeySelector(nextOuterItem.value),
+                        innerKeySelector(nextInnerItem))) {
+                        return {
+                            value: resultSelector(nextOuterItem.value, nextInnerItem),
+                            done: false
+                        };
+                    }
+                }
+                return next();
+            }
+        };
+        return new Enumerable({
+            [Symbol.iterator]() {
+                return {
+                    next: next
+                };
+            }
+        });
     }
 
     /**

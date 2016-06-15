@@ -105,10 +105,10 @@ describe('Enumerable', function () {
     });
 
     describe('method "concat"', function () {
-        it('should throw TypeError if the object to concatenate is not iterable.', function () {
+        it('should throw TypeError if the sequence to concatenate is not iterable.', function () {
             (function () {
                 _linq.Enumerable.from(ARRAY_OF_INTEGERS).concat({ a: 1 }).toArray();
-            }).should.throw(TypeError);
+            }).should.throw('Sequence to concat must be iterable.');
         });
         it('should concatenate a sequence to current sequence', function () {
             var enumerable = _linq.Enumerable.from(ARRAY_OF_INTEGERS).concat([5, 10, 15, 20]);
@@ -204,6 +204,77 @@ describe('Enumerable', function () {
             (_linq.Enumerable.from([]).firstOrDefault(function (x) {
                 return x > 100;
             }) === null).should.be.true();
+        });
+    });
+
+    describe('method "join"', function () {
+        it('should throw TypeError if the inner sequence is not iterable.', function () {
+            (function () {
+                _linq.Enumerable.from(ARRAY_OF_INTEGERS).join({ x: 1 }, function (outer) {
+                    return outer;
+                }, function (inner) {
+                    return inner;
+                }, function (outer, inner) {
+                    return outer;
+                }).toArray();
+            }).should.throw('Sequence to join must be iterable.');
+        });
+        it('should join current sequence with another based on matching keys', function () {
+            var enumerable = _linq.Enumerable.from(ARRAY_OF_INTEGERS).join([8, 1, 3, 16, 5, 12], function (outer) {
+                return outer;
+            }, function (inner) {
+                return inner;
+            }, function (outer, inner) {
+                return outer;
+            });
+            enumerable.should.be.instanceof(_linq.Enumerable);
+            enumerable.toArray().should.be.eql([1, 8, 3, 1, 16]);
+        });
+        it('should not fail while joining current sequence with a empty sequence', function () {
+            var enumerable = _linq.Enumerable.from(ARRAY_OF_INTEGERS).join([], function (outer) {
+                return outer;
+            }, function (inner) {
+                return inner;
+            }, function (outer, inner) {
+                return outer;
+            });
+            enumerable.should.be.instanceof(_linq.Enumerable);
+            enumerable.toArray().should.be.empty();
+        });
+        it('should join current sequence with another with different structure', function () {
+            var enumerable = _linq.Enumerable.from(ARRAY_OF_INTEGERS).join([{ a: 8 }, { a: 1 }, { a: 3 }, { a: 16 }, { a: 5 }, { a: 12 }], function (outer) {
+                return outer;
+            }, function (inner) {
+                return inner.a;
+            }, function (outer, inner) {
+                return outer;
+            });
+            enumerable.should.be.instanceof(_linq.Enumerable);
+            enumerable.toArray().should.be.eql([1, 8, 3, 1, 16]);
+        });
+        it('should join current sequence with another and project the result using result selector.', function () {
+            var enumerable = _linq.Enumerable.from(ARRAY_OF_INTEGERS).join([{ a: 8 }, { a: 1 }, { a: 3 }, { a: 16 }, { a: 5 }, { a: 12 }], function (outer) {
+                return outer;
+            }, function (inner) {
+                return inner.a;
+            }, function (outer, inner) {
+                return { b: inner.a };
+            });
+            enumerable.should.be.instanceof(_linq.Enumerable);
+            enumerable.toArray().should.be.eql([{ b: 1 }, { b: 8 }, { b: 3 }, { b: 1 }, { b: 16 }]);
+        });
+        it('should join current sequence with another by matching keys based on compare function.', function () {
+            var enumerable = _linq.Enumerable.from([{ b: 1 }, { b: 2 }, { b: 8 }, { b: 3 }, { b: 1 }, { b: 16 }]).join([{ a: 8 }, { a: 1 }, { a: 3 }, { a: 16 }, { a: 5 }, { a: 12 }], function (outer) {
+                return outer;
+            }, function (inner) {
+                return inner;
+            }, function (outer, inner) {
+                return outer.b;
+            }, function (outer, inner) {
+                return outer.b === inner.a;
+            });
+            enumerable.should.be.instanceof(_linq.Enumerable);
+            enumerable.toArray().should.be.eql([1, 8, 3, 1, 16]);
         });
     });
 

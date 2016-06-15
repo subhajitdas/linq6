@@ -108,6 +108,15 @@ console.log(_linq.Enumerable.from(arr).firstOrDefault(function (x) {
     return x > 100;
 }));
 
+console.log('-- Join --');
+console.log(_linq.Enumerable.from(arr).join([3, 5, 33, 9, 8, 10], function (o) {
+    return o;
+}, function (i) {
+    return i;
+}, function (o, i) {
+    return o;
+}).toArray());
+
 console.log('-- Single --');
 console.log(_linq.Enumerable.from(arr).single(function (x) {
     return x === 10;
