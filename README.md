@@ -4,7 +4,7 @@
 [![Build Status](https://travis-ci.org/subhajitdas/linq6.svg?branch=master)](https://travis-ci.org/subhajitdas/linq6)
 
 ## Why?
-Language-Integrated Query (LINQ) provides powerful capabilities to query and manipulate any iterable data. Its easy, fast, fluent and supports lazy execution. Using this deferred execution capabilities linq6 could easily manilulate large collections.
+Language-Integrated Query (LINQ) provides powerful capabilities to query and manipulate any iterable data. Its easy, fast, fluent and supports lazy execution. Using the deferred execution capabilities linq6 could easily manilulate large collections.
 
 ## How?
 This library uses es6 features, specially [iterator](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Iteration_protocols). It provides a fluent interface so that methods could be easily chained to create a process pipeline.
