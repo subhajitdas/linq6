@@ -1,3 +1,4 @@
-node_modules
-typings
-docs
+node_modules/
+typings/
+docs/
+npm-debug*

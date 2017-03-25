@@ -1,15 +1,2 @@
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _enumerable = require('./enumerable');
-
-Object.defineProperty(exports, 'Enumerable', {
-  enumerable: true,
-  get: function get() {
-    return _enumerable.Enumerable;
-  }
-});
+'use strict';Object.defineProperty(exports,'__esModule',{value:true});var _enumerable=require('./enumerable');var _enumerable2=_interopRequireDefault(_enumerable);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj}}exports.default=_enumerable2.default;
 //# sourceMappingURL=linq6.js.map

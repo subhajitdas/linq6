@@ -1,4 +1,4 @@
-import {Enumerable} from './linq6';
+import Enumerable from '../src/linq6';
 
 console.log('-- Select & Where --');
 let arr = [1, 3, 5, 6, 10, 35, 9, 8];

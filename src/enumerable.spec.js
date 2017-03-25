@@ -1,4 +1,4 @@
-import {Enumerable} from '../linq6';
+import Enumerable from './enumerable';
 import 'should';
 import * as sinon from 'sinon';
 import 'should-sinon';

@@ -1,1 +1,2 @@
-export {Enumerable} from './enumerable';
+import Enumerable from './enumerable';
+export default Enumerable;

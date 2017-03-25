@@ -642,4 +642,4 @@ function isIterable(obj) {
     return obj[Symbol.iterator] && (typeof obj[Symbol.iterator] === 'function');
 }
 
-export {Enumerable};
+export default Enumerable;
